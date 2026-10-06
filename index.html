@@ -17,7 +17,7 @@
   <style>
     :root {
       --bg: #09090b;
-      --panel: #121215;
+      --panel: #18181b;
       --border: #3f3f46;
       --cell-bg: #27272a;
       --cell-hover: #3f3f46;
@@ -34,6 +34,7 @@
     body {
       margin: 0;
       min-height: 100vh;
+      min-height: 100dvh;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -42,55 +43,70 @@
       color: var(--text-main);
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       -webkit-font-smoothing: antialiased;
+      padding: 16px;
     }
 
-    /* Carte principale */
+    /* Carte principale optimisée mobile */
     body > div {
       background: var(--panel);
-      padding: 2.5rem;
+      padding: 1.5rem;
       border-radius: 20px;
-      border: 1px solid #27272a;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
-      max-width: 90vw;
+      border: 1px solid var(--border);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      width: 100%;
+      max-width: 380px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
-    /* Grille de jeu */
+    /* Conteneur du jeu */
+    body > div > div:first-child {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Grille de jeu responsive */
     .board {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      margin: 20px 0;
+      gap: 10px;
+      margin: 10px 0;
+      width: 100%;
+      max-width: 320px;
+      aspect-ratio: 1 / 1;
     }
 
-    /* Cases du Morpion nettement contrastées */
+    /* Cases du Morpion très lisibles */
     .cell {
-      width: 88px;
-      height: 88px;
+      width: 100%;
+      height: 100%;
+      aspect-ratio: 1 / 1;
       background: var(--cell-bg);
       border: 2px solid var(--border);
       border-radius: 14px;
       display: flex;
       justify-content: center;
       align-items: center;
-      font-size: 2.6rem;
+      font-size: 2.4rem;
       font-weight: 800;
       cursor: pointer;
       user-select: none;
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
-      transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+      transition: background-color 0.15s ease, border-color 0.15s ease;
     }
 
     .cell:hover:not(.taken) {
       background: var(--cell-hover);
       border-color: #71717a;
-      transform: translateY(-2px);
     }
 
     .cell.taken {
       cursor: default;
     }
 
-    /* Couleurs des symboles X et O */
+    /* Symboles X et O */
     .cell[data-val="X"] {
       color: var(--color-x);
     }
@@ -99,19 +115,19 @@
       color: var(--color-o);
     }
 
-    /* Statut de fin de partie */
+    /* Statut */
     .status {
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       font-weight: 700;
       text-align: center;
-      min-height: 1.8rem;
-      margin-top: 15px;
+      min-height: 1.6rem;
+      margin-top: 10px;
       color: var(--text-main);
     }
 
     /* Bouton Rejouer */
     #replay-btn {
-      margin: 15px auto 0 auto;
+      margin: 10px auto 0 auto;
       padding: 10px 24px;
       font-size: 0.95rem;
       font-weight: 700;
@@ -121,28 +137,26 @@
       color: #000000;
       border: none;
       border-radius: 10px;
-      transition: opacity 0.15s ease, transform 0.1s ease;
     }
 
     #replay-btn:hover {
       opacity: 0.9;
-      transform: translateY(-1px);
     }
 
-    /* Footer */
+    /* Footer compact */
+    footer {
+      text-align: center;
+      margin-top: 1.25rem !important;
+      padding: 0.5rem 0 0 0 !important;
+      color: #9ca3af;
+      font-size: 0.75rem;
+    }
+
     footer a {
       transition: color 0.15s ease;
     }
     footer a:hover {
       color: var(--text-main) !important;
-    }
-
-    @media (max-width: 400px) {
-      .cell {
-        width: 72px;
-        height: 72px;
-        font-size: 2rem;
-      }
     }
   </style>
 </head>
