@@ -15,6 +15,22 @@
       });
     </script>
   <style>
+    :root {
+      --bg: #09090b;
+      --panel: #121215;
+      --border: #3f3f46;
+      --cell-bg: #27272a;
+      --cell-hover: #3f3f46;
+      --text-main: #ffffff;
+      --text-muted: #a1a1aa;
+      --color-x: #60a5fa;
+      --color-o: #f87171;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       min-height: 100vh;
@@ -22,13 +38,111 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      background-color: var(--bg);
+      color: var(--text-main);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
     }
+
+    /* Carte principale */
+    body > div {
+      background: var(--panel);
+      padding: 2.5rem;
+      border-radius: 20px;
+      border: 1px solid #27272a;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+      max-width: 90vw;
+    }
+
+    /* Grille de jeu */
+    .board {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin: 20px 0;
+    }
+
+    /* Cases du Morpion nettement contrastées */
+    .cell {
+      width: 88px;
+      height: 88px;
+      background: var(--cell-bg);
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 2.6rem;
+      font-weight: 800;
+      cursor: pointer;
+      user-select: none;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+    }
+
+    .cell:hover:not(.taken) {
+      background: var(--cell-hover);
+      border-color: #71717a;
+      transform: translateY(-2px);
+    }
+
+    .cell.taken {
+      cursor: default;
+    }
+
+    /* Couleurs des symboles X et O */
+    .cell[data-val="X"] {
+      color: var(--color-x);
+    }
+
+    .cell[data-val="O"] {
+      color: var(--color-o);
+    }
+
+    /* Statut de fin de partie */
+    .status {
+      font-size: 1.2rem;
+      font-weight: 700;
+      text-align: center;
+      min-height: 1.8rem;
+      margin-top: 15px;
+      color: var(--text-main);
+    }
+
+    /* Bouton Rejouer */
     #replay-btn {
-      margin-top: 10px;
-      padding: 8px 16px;
-      font-size: 16px;
+      margin: 15px auto 0 auto;
+      padding: 10px 24px;
+      font-size: 0.95rem;
+      font-weight: 700;
       display: none;
       cursor: pointer;
+      background: #ffffff;
+      color: #000000;
+      border: none;
+      border-radius: 10px;
+      transition: opacity 0.15s ease, transform 0.1s ease;
+    }
+
+    #replay-btn:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+    /* Footer */
+    footer a {
+      transition: color 0.15s ease;
+    }
+    footer a:hover {
+      color: var(--text-main) !important;
+    }
+
+    @media (max-width: 400px) {
+      .cell {
+        width: 72px;
+        height: 72px;
+        font-size: 2rem;
+      }
     }
   </style>
 </head>
@@ -61,7 +175,7 @@
 		  </a>
 		</div>
 	  </div>
-	  <br>version 2.1
+	  <br>version 2.2
 	</footer>
   </div>
 
@@ -93,6 +207,7 @@
       board.forEach((val, idx) => {
         const cell = document.createElement("div");
         cell.className = "cell" + (val ? " taken" : "");
+        cell.setAttribute("data-val", val);
         cell.textContent = val;
         cell.addEventListener("click", () => playerMove(idx));
         boardElem.appendChild(cell);
